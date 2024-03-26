@@ -1,0 +1,57 @@
+#include <stdio.h>
+#include <string.h>
+
+#define STATES 3
+#define SYMBOLS 2
+
+int dfa_table[STATES][SYMBOLS] = {
+    // state 0: initial state
+    {1, 2},
+
+    // state 1: string starts with 'a'
+    {1, 2},
+
+    // state 2: string ends with 'a'
+    {2, 2}
+};
+
+int is_accepted(char *input_string)
+{
+    int current_state = 0;
+    int i, symbol;
+
+    for (i = 0; i < strlen(input_string); i++)
+    {
+        if (input_string[i] == 'a')
+            symbol = 0;
+        else if (input_string[i] == 'b')
+            symbol = 1;
+        else
+        {
+            printf("Invalid input symbol '%c'\n", input_string[i]);
+            return 0;
+        }
+
+        current_state = dfa_table[current_state][symbol];
+    }
+
+    if (current_state == 2)
+        return 1;
+    else
+        return 0;
+}
+
+int main()
+{
+    char input_string[100];
+
+    printf("Enter the input string: ");
+    scanf("%s", input_string);
+
+    if (is_accepted(input_string))
+        printf("Accepted\n");
+    else
+        printf("Rejected\n");
+
+    return 0;
+}
